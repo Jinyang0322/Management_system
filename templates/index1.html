@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="CSS/style.css" rel="stylesheet">
+    <script src="./JS/main.js"></script>
+
+</head>
+
+<body>
+    <div class="header">
+        <a href="index.html" class="logo"><b>Student Management<span> System</span></b></a>
+    </div>
+
+    <aside>
+        <ul class="sidenav"">
+            <li><a class=" active" href="index.html">Dashboard</a></li>
+            <li><a href="login.html">Log in</a></li>
+            <li><a href="announce.html">Announcement</a></li>
+            <li><a href="survey.html">Making Surveys</a></li>
+            <li><a href="attend.html">Attendence</a></li>
+            <li><a href="logout.html">Log out</a></li>
+        </ul>
+    </aside>
+
+    <div id="main-content">
+        <h1 class="main" id="title"></h1>
+    </div>
+
+    <script>
+        if (statusCheck()){
+            document.getElementById("title").innerHTML = "Welcome!  "+statusCheck();
+        }
+        else{
+            document.getElementById("title").innerHTML = "Please Log In!";
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="CSS/style.css" rel="stylesheet">
+  <script src="./JS/main.js"></script>
+</head>
+
+<body>
+  <div class="header">
+    <a href="index.html" class="logo"><b>Student Management<span> System</span></b></a>
+  </div>
+
+  <aside>
+    <ul class="sidenav"">
+      <li><a href=" index.html">Dashboard</a></li>
+      <li><a class=" active" href="login.html">Log in</a></li>
+      <li><a href="announce.html">Announcement</a></li>
+      <li><a href="survey.html">Making Surveys</a></li>
+      <li><a href="attend.html">Attendence</a></li>
+      <li><a href="logout.html">Log out</a></li>
+    </ul>
+  </aside>
+
+  <div class="login">
+    <h1>Please Log In:</h1>
+    <!-- <form method="post"> -->
+    <div>
+      <input type="text" placeholder="User Ndddame" id="userid" class="form-input" />
+    </div>
+    <div>
+      <input id="password" type="password" placeholder="Password"></input>
+    </div>
+
+    <button class="but" type="submit" id="submitform">Log in</button>
+    <!-- </form> -->
+    <p id="submit-status">Please enter infomation...</p>
+  </div>
+
+  <script>
+    var btn = document.getElementById("submitform");
+    btn.onclick = function () {
+      login_submit();
+      // console.log(data);
+    }
+    var x = getCookie('user1');
+    console.log(x);
+  </script>
+  <!-- <script src="./JS/login.js"></script> -->
+
+</body>
+
+</html>
