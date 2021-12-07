@@ -29,11 +29,14 @@ def admin_login(request):
         user = authenticate(request, username=u, password=p)
         if user:
             login(request, user)
-        error = True
-        j = json.dumps(error)
-        d = {'result': j}
-        # return render(request, 'login.html', d)
-        return JsonResponse({'status':'ok'})
+            error = True
+            j = json.dumps(error)
+            d = {'result': j}
+            # return render(request, 'login.html', d)
+            return JsonResponse({'status': 'ok'})
+        else:
+            return JsonResponse({'status': 'wrong'})
+
         # if user:
         #     login(request, user)
         #     return redirect('home')
