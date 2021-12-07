@@ -26,6 +26,6 @@ urlpatterns = [
     path('viewannounce/', viewAnnouncement, name='viewanounce'),
     path('announce/', announce, name='viewanounce'),
     path('viewcourse/<str:id>', viewcourse, name='viewcourse'),
-    path('viewattendence/', viewattendence, name='attendence'),
+    path('attend/', viewattendence, name='attendence'),
 
 ]
