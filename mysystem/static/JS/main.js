@@ -31,16 +31,24 @@ function login_submit() {
     // console.log(document.getElementById("password").value);
 
     // The request parameters
-    var url = "http://127.0.0.1:8000/server";
-    data.user = user;
-    data.password = password;
+    var url = "./login/";
+
+    var loginPost = {
+        username: user,
+        password: password
+    };
 
     var xhr = new XMLHttpRequest();
-
     xhr.open('POST', url);
-
-    xhr.send(data);
-
+    if (data === null) {
+        xhr.send();
+    } else {
+        xhr.setRequestHeader(
+            "Content-Type",
+            "application/json;charset=utf-8"
+        );
+        xhr.send(loginPost);
+    }
     console.log(data);
 
     xhr.onreadystatechange = function () {
