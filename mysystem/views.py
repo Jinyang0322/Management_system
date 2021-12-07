@@ -18,26 +18,27 @@ def home(request):
 
 @csrf_exempt
 def admin_login(request):
-    def admin_login(request):
-        error = False
-        if request.method == "POST":
-            concat = request.POST
-            postBody = request.body
-            print(concat)
-            print(type(postBody))
-            print(postBody)
-            u = request.POST.get('username')
-            p = request.POST.get('password')
-            print(u)
-            print(p)
-            user = authenticate(request, username=u, password=p)
-            if user:
-                login(request, user)
-                return redirect('home')
-            else:
-                error = True
-        d = {'error': error}
+    error = False
+    if request.method == "POST":
+        postBody = request.body
+        print(type(postBody))
+        print(postBody)
+        json_result = json.loads(postBody)
+        u = json_result['username']
+        p = json_result['password']
+        print(u)
+        print(p)
+        user = authenticate(request, username=u, password=p)
+        error = True
+        d = {'result': error}
         return render(request, 'login.html', d)
+        # if user:
+        #     login(request, user)
+        #     return redirect('home')
+        # else:
+        #     error = True
+    d = {'error': error}
+    return render(request, 'login.html', d)
 
 
 def viewcourse(request, id):
