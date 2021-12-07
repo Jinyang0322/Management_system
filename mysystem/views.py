@@ -6,6 +6,7 @@ from datetime import date
 
 from mysystem.models import *
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.models import User
 from mysystem.models import course, Cornellstu, anouncement, attendence
 import datetime
 import json
@@ -26,6 +27,8 @@ def admin_login(request):
         u = json_result['username']
         p = json_result['password']
         user = authenticate(request, username=u, password=p)
+        if user:
+            login(request, user)
         error = True
         j = json.dumps(error)
         d = {'result': j}
@@ -52,8 +55,9 @@ def viewcourse(request, id):
 
 @csrf_exempt
 def viewattendence(request):
-    # if not request.user.is_authenticated:
-    #         return redirect('home')
+    if not request.user.is_authenticated:
+        print("wrong user")
+        return redirect('home')
     if request.method == "POST":
         order = attendence.objects.first()
         a = {'1': order.stu1, '2': order.stu2, '3': order.stu3, '4': order.stu4, '5': order.stu5, '6': order.stu6,
@@ -91,7 +95,7 @@ def announce(request):
 
 
 def admin_logout(request):
-    # logout(request)
+    logout(request)
     return render(request, 'logout.html')
 
 
@@ -112,21 +116,30 @@ def admin_logout(request):
 #     c = "what"
 #     return render_to_response("index1.html", locals())
 
-# def Signup(request):
-#     error=False
-#     error1=False
-#     if request.method == "POST":
-#         f=request.POST['firstname']
-#         l=request.POST['lastname']
-#         n=request.POST['netid']
-#         u=request.POST['username']
-#         p=request.POST['password']
-#         e=request.POST['email']
-#         user = User.objects.filter(username = u)
-#         if user:
-#             error= True
-#         else:
-#             us = User.objects.create_user(username=u,password=p, first_name=f,last_name=l )
-#             error1=True
-#     d = {"error":error,'error1':error1}
-#     return render(request,'Signup.html',d)
+def Signup(request):
+    # error=False
+    # error1=False
+    # if request.method == "POST":
+    #     f=request.POST['firstname']
+    #     l=request.POST['lastname']
+    #     n=request.POST['netid']
+    #     u=request.POST['username']
+    #     p=request.POST['password']
+    #     e=request.POST['email']
+    #     user = User.objects.filter(username = u)
+    #     if user:
+    #         error= True
+    #     else:
+    #         us = User.objects.create_user(username=u,password=p, first_name=f,last_name=l )
+    #         error1=True
+    # d = {"error":error,'error1':error1}
+    # return render(request,'Signup.html',d)
+    user = User.objects.filter(username="xubin")
+    if user:
+        print("user already exists：")
+    else:
+        User.objects.create_user(username="xubin", password="123456", email="bx83@cornell.edu")
+        username = "xubin"
+        password = "123456"
+        user = authenticate(request,  username=username, password=password)
+    return render(request, 'index.html')
