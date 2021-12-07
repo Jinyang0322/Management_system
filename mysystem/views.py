@@ -30,7 +30,8 @@ def admin_login(request):
         print(p)
         user = authenticate(request, username=u, password=p)
         error = True
-        d = {'result': error}
+        j = json.dumps(error)
+        d = {'result': j}
         return render(request, 'login.html', d)
         # if user:
         #     login(request, user)
