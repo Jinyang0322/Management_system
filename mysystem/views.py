@@ -48,7 +48,7 @@ def viewcourse(request, id):
     print(data.courseinfo.time2)
     print(data.courseinfo.time3)
 
-
+@csrf_exempt
 def viewattendence(request):
     # if not request.user.is_authenticated:
     #         return redirect('home')
@@ -68,7 +68,7 @@ def viewAnnouncement(request):
     print(data.content)
     return render(request, 'index.html')
 
-
+@csrf_exempt
 def announce(request):
     # if not request.user.is_authenticated:
     #     return redirect('home')
