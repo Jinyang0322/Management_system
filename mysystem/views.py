@@ -19,6 +19,11 @@ def home(request):
 def admin_login(request):
     error = False
     if request.method == "POST":
+        concat = request.POST
+        postBody = request.body
+        print(concat)
+        print(type(postBody))
+        print(postBody)
         u = request.POST.get('username')
         p = request.POST.get('password')
         print(u)
