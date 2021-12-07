@@ -7,6 +7,7 @@ from mysystem.models import *
 from django.contrib.auth import login, logout, authenticate
 from mysystem.models import course, Cornellstu, anouncement, attendence
 import datetime
+import json
 
 
 # Create your views here.
@@ -17,25 +18,26 @@ def home(request):
 
 @csrf_exempt
 def admin_login(request):
-    error = False
-    if request.method == "POST":
-        concat = request.POST
-        postBody = request.body
-        print(concat)
-        print(type(postBody))
-        print(postBody)
-        u = request.POST.get('username')
-        p = request.POST.get('password')
-        print(u)
-        print(p)
-        user = authenticate(request, username=u, password=p)
-        if user:
-            login(request, user)
-            return redirect('home')
-        else:
-            error = True
-    d = {'error': error}
-    return render(request, 'login.html', d)
+    def admin_login(request):
+        error = False
+        if request.method == "POST":
+            concat = request.POST
+            postBody = request.body
+            print(concat)
+            print(type(postBody))
+            print(postBody)
+            u = request.POST.get('username')
+            p = request.POST.get('password')
+            print(u)
+            print(p)
+            user = authenticate(request, username=u, password=p)
+            if user:
+                login(request, user)
+                return redirect('home')
+            else:
+                error = True
+        d = {'error': error}
+        return render(request, 'login.html', d)
 
 
 def viewcourse(request, id):

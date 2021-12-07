@@ -33,13 +33,20 @@ function login_submit() {
     // The request parameters
     var url = "./";
 
-    var loginPost = {
+    // var loginPost = {
+    //     username: user,
+    //     password: password
+    // };
+    var loginPost = JSON.stringify({
         username: user,
         password: password
-    };
+    });
+    console.log(loginPost);
 
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url);
+    // xhr.send(loginPost);
+    // console.log("change")
     if (data === null) {
         xhr.send();
     } else {
@@ -49,7 +56,7 @@ function login_submit() {
         );
         xhr.send(loginPost);
     }
-    console.log(data);
+    // console.log(data);
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
