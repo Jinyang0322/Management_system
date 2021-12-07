@@ -6,3 +6,4 @@ from .models import *
 admin.site.register(anouncement)
 admin.site.register(course)
 admin.site.register(Cornellstu)
+admin.site.register(attendence)

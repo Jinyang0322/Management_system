@@ -22,4 +22,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
     path('login/', admin_login, name='login'),
+    path('logout/', admin_logout, name='logout'),
+    path('viewannounce/', viewAnnouncement, name='viewanounce'),
+    path('announce/', announce, name='viewanounce'),
+    path('viewcourse/<str:id>', viewcourse, name='viewcourse'),
+    path('viewattendence/', viewattendence, name='attendence'),
+
 ]

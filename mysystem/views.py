@@ -1,10 +1,10 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.http import Http404
 from django.urls import reverse_lazy
 
 from mysystem.models import *
 from django.contrib.auth import login, logout, authenticate
-from mysystem.models import course, Cornellstu, anouncement
+from mysystem.models import course, Cornellstu, anouncement,attendence
 import datetime
 # Create your views here.
 
@@ -27,25 +27,53 @@ def admin_login(request):
     d = {'error': error}
     return render(request, 'login.html', d)
 
-
-# def anounce(request):
-#     if not request.user.is_authenticated:
+def viewcourse(request,id):
+# if not request.user.is_authenticated:
 #         return redirect('home')
-#     error3=False
-#     data =Book.objects.raw('SELECT * FROM library_book')
-#
-#     if request.method=="POST":
-#         b = request.POST['book']
-#         i = request.POST['isbn']
-#         a = request.POST['author']
-#         c = request.POST['category']
-#         q = request.POST['quantity']
-#         Book.objects.create(book_name=b, author=a, isbn=i, category=c,quantity=q)
-#         error3=True
-#         d={'error3':error3,'data':data}
-#         return render(request,'bookview.html',d)
-#
-#     return render(request,'AddBook.html')
+    data = Cornellstu.objects.filter(netid=id)
+    print(data.courseinfo.time1)
+    print(data.courseinfo.time2)
+    print(data.courseinfo.time3)
+
+def viewattendence(request):
+
+
+# if not request.user.is_authenticated:
+#         return redirect('home')
+    order1 = attendence.objects.all()
+    d = {'data1':order1}
+    return render(request, 'attend.html', d)
+
+
+
+
+
+def viewAnnouncement(request):
+    if not request.user.is_authenticated:
+        return redirect('home')
+    data = anouncement.objects.first()
+    print(data.content)
+    return render(request, 'index.html')
+
+
+
+
+def announce(request):
+    # if not request.user.is_authenticated:
+    #     return redirect('home')
+    error3=False
+
+    if request.method=="POST":
+        c = request.POST['content']
+        t = request.Post['title']
+        anouncement.objects.create(time='2021-12-13', title=t, content=c)
+
+    return render(request,'announce.html')
+
+def admin_logout(request):
+    # logout(request)
+    return render(request, 'logout.html')
+
 
 # def Signup(request):
 #     error=False
