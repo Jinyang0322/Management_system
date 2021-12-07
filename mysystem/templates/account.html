@@ -39,36 +39,33 @@
         <div>
             <a>Your last name:</a>
             <br>
-            <input id="lastname" type="password" placeholder="Last name"></input>
+            <input id="lastname" type="text" placeholder="Last name"></input>
         </div>
         <div>
             <a>Your username:</a>
             <br>
-            <input id="username" type="password" placeholder="Username"></input>
+            <input id="username" type="text" placeholder="Username"></input>
         </div>
         <div>
             <a>Your password:</a>
             <br>
-            <input id="password" type="password" placeholder="Password"></input>
+            <input id="password" type="text" placeholder="Password"></input>
         </div>
         <div>
             <a>Your email:</a>
             <br>
-            <input id="email" type="password" placeholder="E-mail"></input>
+            <input id="email" type="text" placeholder="E-mail"></input>
         </div>
 
-        <button class="but" type="submit" id="submitform">Log in</button>
+        <button class="but" type="submit" id="createacc">Create Account</button>
         <!-- </form> -->
-        <p id="submit-status">Please enter infomation...</p>
     </div>
 
     <script>
-        var btn = document.getElementById("submitform");
+        var btn = document.getElementById("createacc");
         btn.onclick = function () {
             createSubmit();
         }
-        var x = getCookie('user1');
-        console.log(x);
 
         function createSubmit() {
             var username = document.querySelector("#username").value;
@@ -76,17 +73,9 @@
             var firstname = document.querySelector("#firstname").value;
             var lastname = document.querySelector("#lastname").value;
             var email = document.querySelector("#email").value;
-            // var user = document.getElementById("userid").value;
-            // var password = document.getElementById("password").value;
-            // console.log(document.getElementById("password").value);
 
-            // The request parameters
             var url = "./";
 
-            // var loginPost = {
-            //     username: user,
-            //     password: password
-            // };
             var createPost = JSON.stringify({
                 username: username,
                 password: password,
@@ -94,12 +83,10 @@
                 lastname: lastname,
                 email: email,
             });
-            console.log(loginPost);
+            console.log(createPost);
 
             var xhr = new XMLHttpRequest();
             xhr.open('POST', url);
-            // xhr.send(loginPost);
-            // console.log("change")
             if (data === null) {
                 xhr.send();
             } else {
@@ -109,7 +96,6 @@
                 );
                 xhr.send(createPost);
             }
-            // console.log(data);
             alert("Your account is created!")
             document.getElementById("username").value = '';
             document.getElementById("password").value = '';

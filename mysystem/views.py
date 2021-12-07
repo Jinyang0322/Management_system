@@ -119,6 +119,7 @@ def admin_logout(request):
 #     c = "what"
 #     return render_to_response("index1.html", locals())
 
+@csrf_exempt
 def Signup(request):
     if request.method == "POST":
         postBody = request.body
@@ -135,12 +136,12 @@ def Signup(request):
         else:
             us = User.objects.create_user(username=u, password=p, email=e, first_name=f, last_name=l)
     # test part
-    user = User.objects.filter(username="xubin")
-    if user:
-        print("user already exists：")
-    else:
-        User.objects.create_user(username="xubin", password="123456", email="bx83@cornell.edu", first_name='Bin', last_name='Xu')
-        username = "xubin"
-        password = "123456"
-        user = authenticate(request,  username=username, password=password)
+    # user = User.objects.filter(username="xubin")
+    # if user:
+    #     print("user already exists：")
+    # else:
+    #     User.objects.create_user(username="xubin", password="123456", email="bx83@cornell.edu", first_name='Bin', last_name='Xu')
+    #     username = "xubin"
+    #     password = "123456"
+    #     user = authenticate(request,  username=username, password=password)
     return render(request, 'account.html')
