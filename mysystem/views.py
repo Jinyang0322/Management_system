@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,HttpResponse,render_to_response
 from django.http import Http404
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
@@ -32,7 +32,8 @@ def admin_login(request):
         error = True
         j = json.dumps(error)
         d = {'result': j}
-        return render(request, 'login.html', d)
+        # return render(request, 'login.html', d)
+        return HttpResponse("login success")
         # if user:
         #     login(request, user)
         #     return redirect('home')
@@ -87,6 +88,24 @@ def announce(request):
 def admin_logout(request):
     # logout(request)
     return render(request, 'logout.html')
+
+
+def index1(request):
+    if request.method=="POST":
+        username = request.POST.get("username")
+        pwd = request.POST.get("password")
+
+        print(username)
+        print(pwd)
+
+        if username == "klvchen" and pwd=="123":
+            return HttpResponse("登录成功")
+    #return render(req, "login.html")
+    kl = "you are welcome"
+    a = "hello"
+    b = "world"
+    c = "what"
+    return render_to_response("index1.html", locals())
 
 # def Signup(request):
 #     error=False

@@ -27,5 +27,6 @@ urlpatterns = [
     path('announce/', announce, name='viewanounce'),
     path('viewcourse/<str:id>', viewcourse, name='viewcourse'),
     path('attend/', viewattendence, name='attendence'),
+    path('test/', index1, name = 'test'),
 
 ]
