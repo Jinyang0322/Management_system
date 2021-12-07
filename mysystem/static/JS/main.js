@@ -31,7 +31,7 @@ function login_submit() {
     // console.log(document.getElementById("password").value);
 
     // The request parameters
-    var url = "./login/";
+    var url = "./";
 
     var loginPost = {
         username: user,

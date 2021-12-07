@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import Http404
 from django.urls import reverse_lazy
+from django.views.decorators.csrf import csrf_exempt
 
 from mysystem.models import *
 from django.contrib.auth import login, logout, authenticate
@@ -14,12 +15,12 @@ import datetime
 def home(request):
     return render(request, 'index.html')
 
-
+@csrf_exempt
 def admin_login(request):
     error = False
     if request.method == "POST":
-        u = request.POST['username']
-        p = request.POST['password']
+        u = request.POST.get('username')
+        p = request.POST.get('password')
         print(u)
         print(p)
         user = authenticate(request, username=u, password=p)
