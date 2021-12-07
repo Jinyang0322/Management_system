@@ -143,4 +143,4 @@ def Signup(request):
         username = "xubin"
         password = "123456"
         user = authenticate(request,  username=username, password=password)
-    return render(request, 'index.html')
+    return render(request, 'account.html')

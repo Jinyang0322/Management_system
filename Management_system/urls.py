@@ -27,7 +27,7 @@ urlpatterns = [
     path('announce/', announce, name='viewanounce'),
     path('viewcourse/<str:id>', viewcourse, name='viewcourse'),
     path('attend/', viewattendence, name='attendence'),
-    path('register/', Signup, name='register')
+    path('account/', Signup, name='register')
     # path('test/', index1, name = 'test'),
 
 ]
