@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect,HttpResponse,render_to_response
-from django.http import Http404
+from django.shortcuts import render, redirect,HttpResponse
+from django.http import Http404, JsonResponse
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 
@@ -21,19 +21,15 @@ def admin_login(request):
     error = False
     if request.method == "POST":
         postBody = request.body
-        print(type(postBody))
-        print(postBody)
         json_result = json.loads(postBody)
         u = json_result['username']
         p = json_result['password']
-        print(u)
-        print(p)
         user = authenticate(request, username=u, password=p)
         error = True
         j = json.dumps(error)
         d = {'result': j}
         # return render(request, 'login.html', d)
-        return HttpResponse("login success")
+        return JsonResponse({'status':'ok'})
         # if user:
         #     login(request, user)
         #     return redirect('home')
@@ -46,6 +42,7 @@ def admin_login(request):
 def viewcourse(request, id):
     # if not request.user.is_authenticated:
     #         return redirect('home')
+
     data = Cornellstu.objects.filter(netid=id)
     print(data.courseinfo.time1)
     print(data.courseinfo.time2)
@@ -55,13 +52,13 @@ def viewcourse(request, id):
 def viewattendence(request):
     # if not request.user.is_authenticated:
     #         return redirect('home')
-    order = attendence.objects.first()
-    a = []
-
-    print(order.stu1)
-
-    d = {'data1': order}
-    return render(request, 'attend.html', d)
+    if request.method == "POST":
+        order = attendence.objects.first()
+        a = {'1': order.stu1, '2': order.stu2, '3': order.stu3, '4': order.stu4, '5': order.stu5, '6': order.stu6,
+             '7': order.stu7, '8': order.stu8, '9': order.stu9, '10': order.stu10 }
+        d = {'data1': order}
+        return JsonResponse(a)
+    return render(request, 'attend.html')
 
 
 def viewAnnouncement(request):
@@ -78,9 +75,14 @@ def announce(request):
     error3 = False
 
     if request.method == "POST":
-        c = request.POST['content']
-        t = request.Post['title']
+
+        postBody = request.body
+        json_result = json.loads(postBody)
+        c = json_result['content']
+        t = json_result['title']
+
         anouncement.objects.create(time='2021-12-13', title=t, content=c)
+        return JsonResponse({'status':'ok'})
 
     return render(request, 'announce.html')
 
@@ -90,22 +92,22 @@ def admin_logout(request):
     return render(request, 'logout.html')
 
 
-def index1(request):
-    if request.method=="POST":
-        username = request.POST.get("username")
-        pwd = request.POST.get("password")
-
-        print(username)
-        print(pwd)
-
-        if username == "klvchen" and pwd=="123":
-            return HttpResponse("登录成功")
-    #return render(req, "login.html")
-    kl = "you are welcome"
-    a = "hello"
-    b = "world"
-    c = "what"
-    return render_to_response("index1.html", locals())
+# def index1(request):
+#     if request.method=="POST":
+#         username = request.POST.get("username")
+#         pwd = request.POST.get("password")
+#
+#         print(username)
+#         print(pwd)
+#
+#         if username == "klvchen" and pwd=="123":
+#             return HttpResponse("登录成功")
+#     #return render(req, "login.html")
+#     kl = "you are welcome"
+#     a = "hello"
+#     b = "world"
+#     c = "what"
+#     return render_to_response("index1.html", locals())
 
 # def Signup(request):
 #     error=False
