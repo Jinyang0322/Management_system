@@ -146,9 +146,9 @@ h1.main {
 	margin-top: 10px;
 	color: #292e2e;
 }
-.survey input[type="text"], .basic-grey input[type="email"], .basic-grey textarea, .basic-grey select {
-	border: 1px solid #DADADA;
-	color: #DADADA;
+.survey input[type="text"]{
+	border: 1px solid #2b2a2a;
+	color: #333232;
 	height: 30px;
 	margin-bottom: 16px;
 	margin-right: 6px;
@@ -158,9 +158,6 @@ h1.main {
 	width: 70%;
 	font-size: 12px;
 	line-height:15px;
-	box-shadow: inset 0px 1px 4px #97db95;
-	-moz-box-shadow: inset 0px 1px 4px #97db95;
-	-webkit-box-shadow: inset 0px 1px 4px #97db95;
 }
 .survey textarea{
 	padding: 5px 3px 3px 5px;

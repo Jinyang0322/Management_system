@@ -19,8 +19,7 @@
 
     <aside>
         <ul class="sidenav"">
-            <li><a href="/index/">Dashboard</a></li>
-            <li><a href="/login/">Log in</a></li>
+            <li><a href="/index/">Dashboard </a> </li> <li><a href="/login/">Log in</a></li>
             <li><a href="/announce/">Announcement</a></li>
             <li><a href="/survey/">Making Surveys</a></li>
             <li><a class="active" href="/attend/">Attendence</a></li>
@@ -29,38 +28,57 @@
     </aside>
 
     <div id="main-content">
-        <h1 class="main" id="title">Welcome! Elephant.</h1>
+        <h1 class="main" id="title"></h1>
         <div id="table" height="400" width="1100"></div>
-        <!-- <div id="piechart" height="400" width="400"></div> -->
-
+        <div id="piechart" height="400" width="400"></div>
+    </div>
+    <div class="login">
+        <button class="but" type="submit" id="getAttend">Get attendence!</button>
     </div>
 </body>
 
 <script>
     if (statusCheck()) {
         document.getElementById("title").innerHTML = "Welcome!  " + statusCheck();
-        var temp = findAbsent();
+
     } else {
         document.getElementById("title").innerHTML = "Please Log In!";
     }
-
+    var btn = document.getElementById("getAttend");
+    btn.onclick = function () {
+        var temp = findAbsent();
+    }
 
     function findAbsent() {
-        var url = "http://127.0.0.1:8000/server";
+        var url = "./";
         var xhr = new XMLHttpRequest();
         xhr.open('POST', url);
         xhr.send();
+
         xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                response = xhr.responseText;
+            if (xhr.readyState == 4) {
+                response = xhr.response;
                 response = JSON.parse(response);
-                temp = [response.attend, response.absent];
+                console.log(response);
+                numTrue = 0;
+                numFalse = 0;
+                numLst = [];
+                for(i=0; i<50; i++){
+                    if(response[i] != null){
+                        if (response[i] == true){
+                            numTrue = numTrue + 1;
+                        } else {
+                            numFalse = numFalse + 1;
+                            numLst.push(String(i));
+                        }
+                    }
+                }
+                temp = [numTrue, numFalse, numLst];
                 console.log(temp);
                 chart(temp);
             }
         }
     }
-
 </script>
 
 

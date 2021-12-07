@@ -59,21 +59,22 @@ function login_submit() {
     // console.log(data);
 
     xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
+        if (xhr.readyState == 4) {
             response = xhr.response;
             response = JSON.parse(response);
-            console.log(response.user);
-            if (response.user == user) {
+            console.log(response.status);
+            if (response.status == "ok") {
                 document.querySelector("#submit-status").innerHTML = "Successful Log In!";
+                alert("Welcome "+user);
                 setCookie("user1", user);
             } else {
                 document.querySelector("#submit-status").innerHTML = "Incorrect User Name of Password!";
                 document.getElementById("userid").value = '';
                 document.getElementById("password").value = '';
+                alert("Incorrect User Name of Password!");
             }
         }
     }
-
 }
 
 function statusCheck() {
@@ -84,17 +85,41 @@ function statusCheck() {
 }
 
 function announce() {
+    var title = document.querySelector("#titleform").value;
     var message = document.querySelector("#message").value;
-
-    var url = "http://127.0.0.1:8000/server";
+    var url = "./";
+    var announcePost = JSON.stringify({
+        content: message,
+        title: title
+    });
+    console.log(announcePost);
 
     var xhr = new XMLHttpRequest();
-
     xhr.open('POST', url);
+    // xhr.send(loginPost);
+    // console.log("change")
+    if (data === null) {
+        xhr.send();
+    } else {
+        xhr.setRequestHeader(
+            "Content-Type",
+            "application/json;charset=utf-8"
+        );
+        xhr.send(announcePost);
+    }
 
-    xhr.send(message);
-
-    alert("Your announcement has been published successfully!");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            response = xhr.response;
+            response = JSON.parse(response);
+            console.log(response.status);
+            if (response.status == "ok") {
+                alert("Your announcement has been published!");
+            } else {
+                alert("Error");
+            }
+        }
+    }
 }
 
 
@@ -126,7 +151,7 @@ function chart(temp) {
         }
     ];
 
-    const namelist = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+    const namelist = temp[2];
     const table = d3.select("div#table");
     const svg = table
         .append("svg")
@@ -156,7 +181,7 @@ function chart(temp) {
         .attr("font-size", "20px")
 
     map.append("text")
-        .text("Absence Names: " + namelist)
+        .text("Absence Student Ids: " + namelist)
         .attr("x", 30)
         .attr("y", 90)
         .attr("font-family", "Verdana")
