@@ -7,6 +7,7 @@ from mysystem.models import *
 from django.contrib.auth import login, logout, authenticate
 from mysystem.models import course, Cornellstu, anouncement, attendence
 import datetime
+import json
 
 
 # Create your views here.
@@ -19,8 +20,9 @@ def home(request):
 def admin_login(request):
     error = False
     if request.method == "POST":
-        u = request.POST.get('username')
-        p = request.POST.get('password')
+        received_json_data = json.loads(request.body.decode("utf-8"))
+        u = received_json_data['username']
+        p = received_json_data['password']
         print(u)
         print(p)
         user = authenticate(request, username=u, password=p)
