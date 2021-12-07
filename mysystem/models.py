@@ -1,9 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import date
 
 # Create your models here.
 class anouncement(models.Model):
-    time = models.CharField(max_length=50, null=True)
+    time = models.DateField(default=date.today)
     title = models.CharField(max_length=100, null=True)
     content = models.CharField(max_length=300, null=True)
 

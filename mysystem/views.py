@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect,HttpResponse
 from django.http import Http404, JsonResponse
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
+from datetime import date
 
 from mysystem.models import *
 from django.contrib.auth import login, logout, authenticate
@@ -43,10 +44,11 @@ def viewcourse(request, id):
     # if not request.user.is_authenticated:
     #         return redirect('home')
 
-    data = Cornellstu.objects.filter(netid=id)
-    print(data.courseinfo.time1)
-    print(data.courseinfo.time2)
-    print(data.courseinfo.time3)
+    # data1 = Cornellstu.objects.filter(netid=id)
+    # filter()返回的是QuerySet,相当于做了一次筛选，而不是返回一条实例
+    data = Cornellstu.objects.get(netid=id)
+    a = {'t1':data.courseinfo.time1, 't2':data.courseinfo.time2, 't3':data.courseinfo.time3}
+    return JsonResponse(a)
 
 @csrf_exempt
 def viewattendence(request):
@@ -62,11 +64,12 @@ def viewattendence(request):
 
 
 def viewAnnouncement(request):
-    if not request.user.is_authenticated:
-        return redirect('home')
-    data = anouncement.objects.first()
-    print(data.content)
-    return render(request, 'index.html')
+    # if not request.user.is_authenticated:
+    #     return redirect('home')
+    data = anouncement.objects.last()
+    a = {'time': data.time, 'title': data.title, 'content': data.content}
+    return JsonResponse(a)
+
 
 @csrf_exempt
 def announce(request):
@@ -81,7 +84,7 @@ def announce(request):
         c = json_result['content']
         t = json_result['title']
 
-        anouncement.objects.create(time='2021-12-13', title=t, content=c)
+        anouncement.objects.create(time=date.today, title=t, content=c)
         return JsonResponse({'status':'ok'})
 
     return render(request, 'announce.html')
