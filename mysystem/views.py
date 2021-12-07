@@ -120,28 +120,26 @@ def admin_logout(request):
 #     return render_to_response("index1.html", locals())
 
 def Signup(request):
-    # error=False
-    # error1=False
-    # if request.method == "POST":
-    #     f=request.POST['firstname']
-    #     l=request.POST['lastname']
-    #     n=request.POST['netid']
-    #     u=request.POST['username']
-    #     p=request.POST['password']
-    #     e=request.POST['email']
-    #     user = User.objects.filter(username = u)
-    #     if user:
-    #         error= True
-    #     else:
-    #         us = User.objects.create_user(username=u,password=p, first_name=f,last_name=l )
-    #         error1=True
-    # d = {"error":error,'error1':error1}
-    # return render(request,'Signup.html',d)
+    if request.method == "POST":
+        postBody = request.body
+        json_result = json.loads(postBody)
+        f = json_result['firstname']
+        l = json_result['lastname']
+        u = json_result['username']
+        p = json_result['password']
+        e = json_result['email']
+        user = User.objects.filter(username=u)
+        if user:
+            print("user already exists：")
+            error= True
+        else:
+            us = User.objects.create_user(username=u, password=p, email=e, first_name=f, last_name=l)
+    # test part
     user = User.objects.filter(username="xubin")
     if user:
         print("user already exists：")
     else:
-        User.objects.create_user(username="xubin", password="123456", email="bx83@cornell.edu")
+        User.objects.create_user(username="xubin", password="123456", email="bx83@cornell.edu", first_name='Bin', last_name='Xu')
         username = "xubin"
         password = "123456"
         user = authenticate(request,  username=username, password=password)
