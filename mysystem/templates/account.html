@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'CSS/style.css' %}" rel="stylesheet">
+    <script src="{% static 'JS/main.js' %}"></script>
+</head>
+
+<body>
+    <div class="header">
+        <a href="/index/" class="logo"><b>Student Management<span> System</span></b></a>
+    </div>
+
+    <aside>
+        <ul class="sidenav"">
+            <li><a href="/index/">Dashboard </a> </li> 
+            <li><a class=" active" href="/account/">Create Account</a></li>
+            <li><a href="/login/">Log in</a></li>
+            <li><a href="/announce/">Announcement</a></li>
+            <li><a href="/survey/">Making Surveys</a></li>
+            <li><a href="/attend/">Attendence</a></li>
+            <li><a href="/logout/">Log out</a></li>
+        </ul>
+    </aside>
+
+    <div class="login">
+        <h1>Please create an account:</h1>
+        <!-- <form method="post"> -->
+
+        <div>
+            <a>Your first name:</a>
+            <br>
+            <input type="text" placeholder="First Name" id="firstname" class="form-input" />
+        </div>
+        <div>
+            <a>Your last name:</a>
+            <br>
+            <input id="lastname" type="password" placeholder="Last name"></input>
+        </div>
+        <div>
+            <a>Your username:</a>
+            <br>
+            <input id="username" type="password" placeholder="Username"></input>
+        </div>
+        <div>
+            <a>Your password:</a>
+            <br>
+            <input id="password" type="password" placeholder="Password"></input>
+        </div>
+        <div>
+            <a>Your email:</a>
+            <br>
+            <input id="email" type="password" placeholder="E-mail"></input>
+        </div>
+
+        <button class="but" type="submit" id="submitform">Log in</button>
+        <!-- </form> -->
+        <p id="submit-status">Please enter infomation...</p>
+    </div>
+
+    <script>
+        var btn = document.getElementById("submitform");
+        btn.onclick = function () {
+            createSubmit();
+        }
+        var x = getCookie('user1');
+        console.log(x);
+
+        function createSubmit() {
+            var username = document.querySelector("#username").value;
+            var password = document.querySelector("#password").value;
+            var firstname = document.querySelector("#firstname").value;
+            var lastname = document.querySelector("#lastname").value;
+            var email = document.querySelector("#email").value;
+            // var user = document.getElementById("userid").value;
+            // var password = document.getElementById("password").value;
+            // console.log(document.getElementById("password").value);
+
+            // The request parameters
+            var url = "./";
+
+            // var loginPost = {
+            //     username: user,
+            //     password: password
+            // };
+            var createPost = JSON.stringify({
+                username: username,
+                password: password,
+                firstname: firstname,
+                lastname: lastname,
+                email: email,
+            });
+            console.log(loginPost);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', url);
+            // xhr.send(loginPost);
+            // console.log("change")
+            if (data === null) {
+                xhr.send();
+            } else {
+                xhr.setRequestHeader(
+                    "Content-Type",
+                    "application/json;charset=utf-8"
+                );
+                xhr.send(createPost);
+            }
+            // console.log(data);
+            alert("Your account is created!")
+            document.getElementById("username").value = '';
+            document.getElementById("password").value = '';
+            document.getElementById("firstname").value = '';
+            document.getElementById("lastname").value = '';
+            document.getElementById("email").value = '';
+        }
+    </script>
+    <!-- <script src="./JS/login.js"></script> -->
+
+</body>
+
+</html>
