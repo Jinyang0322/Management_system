@@ -1,7 +1,4 @@
-# Author: Shuhua Li (sl2737), Yangyang Peng (yp373)
-# Lab Section: Thursday
-# Date: 2018-09-27
-# Lab: Lab 2
+
 import os
 import time
 import numpy as np
