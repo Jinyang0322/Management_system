@@ -21,6 +21,7 @@ from mysystem.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
+    path('index/', home, name='home'),
     path('login/', admin_login, name='login'),
     path('logout/', admin_logout, name='logout'),
     path('viewannounce/', viewAnnouncement, name='viewanounce'),
