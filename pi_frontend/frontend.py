@@ -71,7 +71,7 @@ while True:
                         length = len(res)
 
                     elif x < 240:  # If slow button is pressed
-                        # 蓝牙part
+                        # 蓝牙part for student 下面那行是随便打的，记得去掉
                         bluetooth = 0
                     else:  # If back button is pressed
 
