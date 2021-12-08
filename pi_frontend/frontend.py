@@ -105,16 +105,16 @@ while True:
             rect = text_surface.get_rect(center=text_pos)
             screen.blit(text_surface, rect)
     else:  # If currently not playing animation, display touch position coordinates
-        screen.blit(cord_surface, cord_rect)
+
+        default = 'welcome Jinyang'  # Set initial text
+        default_surface = my_font.render(default, True, WHITE)
+        default_rect = default_surface.get_rect(center=(160, 100))
+        screen.blit(default_surface, default_rect)
         # Attach 1sd level buttons to screen
         for my_text, text_pos in my_buttons.items():
-            default = 'choose a function'  # Set initial text
-            default_surface = my_font.render(default, True, WHITE)
-            default_rect = default_surface.get_rect(center=(160, 100))
-            screen.blit(default_surface, default_rect)
-            # text_surface = my_font.render(my_text, True, WHITE)
-            # rect = text_surface.get_rect(center=text_pos)
-            # screen.blit(text_surface, rect)
+            text_surface = my_font.render(my_text, True, WHITE)
+            rect = text_surface.get_rect(center=text_pos)
+            screen.blit(text_surface, rect)
     pygame.display.flip()  # Display new frame
     # Set bail button
     currenttime = time.time()
