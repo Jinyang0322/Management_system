@@ -62,7 +62,7 @@ def viewattendence(request):
         print("wrong user")
         return redirect('home')
     if request.method == "POST":
-        order = attendence.objects.first()
+        order = attendence.objects.last()
         a = {'1': order.stu1, '2': order.stu2, '3': order.stu3, '4': order.stu4, '5': order.stu5, '6': order.stu6,
              '7': order.stu7, '8': order.stu8, '9': order.stu9, '10': order.stu10 }
         d = {'data1': order}
@@ -95,6 +95,18 @@ def announce(request):
         return JsonResponse({'status':'ok'})
 
     return render(request, 'announce.html')
+
+
+@csrf_exempt
+def count_attend(request):
+    if request.method == "POST":
+
+        postBody = request.body
+        json_result = json.loads(postBody)
+        # for k,v in json_result.items():
+        #     attendence.objects.create()
+        attendence.objects.create(**json_result)
+    return HttpResponse('ok')
 
 
 def admin_logout(request):

@@ -28,7 +28,8 @@ urlpatterns = [
     path('announce/', announce, name='viewanounce'),
     path('viewcourse/<str:id>', viewcourse, name='viewcourse'),
     path('attend/', viewattendence, name='attendence'),
-    path('account/', Signup, name='register')
+    path('account/', Signup, name='register'),
+    path('count/', count_attend, name='count'),
     # path('test/', index1, name = 'test'),
 
 ]
