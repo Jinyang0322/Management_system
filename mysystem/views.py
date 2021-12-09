@@ -73,7 +73,7 @@ def viewattendence(request):
     if request.method == "POST":
         orders = attendence.objects.all()
         dic = {}
-        count = 0
+        count = 1
         for order in orders:
             a = {'1': order.stu1, '2': order.stu2, '3': order.stu3, '4': order.stu4, '5': order.stu5, '6': order.stu6,
                  '7': order.stu7, '8': order.stu8, '9': order.stu9, '10': order.stu10}
@@ -91,7 +91,7 @@ def viewtest(request):
 
     orders = attendence.objects.all()
     dic = {}
-    count = 0
+    count = 1
     for order in orders:
         a = {'1': order.stu1, '2': order.stu2, '3': order.stu3, '4': order.stu4, '5': order.stu5, '6': order.stu6,
              '7': order.stu7, '8': order.stu8, '9': order.stu9, '10': order.stu10}
