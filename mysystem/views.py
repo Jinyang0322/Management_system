@@ -143,6 +143,20 @@ def sendans(request):
         count.ans1 += 1
     return HttpResponse('ok')
 
+
+@csrf_exempt
+def viewresponse(request):
+    if not request.user.is_authenticated:
+        return redirect('home')
+    if request.method == "POST":
+        answer = Surveyresult.objects.last()
+        content = Surveytable.objects.last()
+        ans = answer.ans1
+        cont = content.description
+        a = {'description': cont, 'response': ans}
+        return JsonResponse(a)
+    return render(request, 'attend.html')
+
 # def index1(request):
 #     if request.method=="POST":
 #         username = request.POST.get("username")

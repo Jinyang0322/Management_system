@@ -31,6 +31,10 @@ urlpatterns = [
     path('account/', Signup, name='register'),
     path('count/', count_attend, name='count'),
     path('survey/', survey, name='survey'),
+    path('survey/answer/', sendans, name='sendanswer'),
+    path('response/', viewresponse, name='response'),
+
+
     # path('test/', index1, name = 'test'),
 
 ]
