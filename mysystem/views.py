@@ -154,14 +154,20 @@ def viewresponse(request):
         content = Surveytable.objects.last()
         ans = answer.ans1
         cont = content.description
-        ques = content.Q1
+        ques = content.question1
         a = {'description': cont, 'Q1': ques,  'response': ans}
         return JsonResponse(a)
     return render(request, 'survey.html')
 
 
 def viewquestion(request):
-    return HttpResponse('待续')
+    # if not request.user.is_authenticated:
+    #     return redirect('home')
+    data = Surveytable.objects.last()
+    ques = data.question1
+    a = {'question': ques}
+    return JsonResponse(a)
+
     
 
 # def index1(request):
