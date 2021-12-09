@@ -154,7 +154,8 @@ def viewresponse(request):
         content = Surveytable.objects.last()
         ans = answer.ans1
         cont = content.description
-        a = {'description': cont, 'response': ans}
+        ques = content.Q1
+        a = {'description': cont, 'Q1': ques,  'response': ans}
         return JsonResponse(a)
     return render(request, 'attend.html')
 
