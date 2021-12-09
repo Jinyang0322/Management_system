@@ -7,24 +7,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="{% static 'CSS/style.css' %}" rel="stylesheet">
-    <script src="{% static 'JS/main.js' %}"></script>
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+    <script src="{% static 'main.js' %}"></script>
 </head>
 
 <body>
     <div class="header">
+        <img class="logo" src="{% static 'pic/logo.png' %}" alt="logo-here" width="100" height="35" />
         <a href="/index/" class="logo"><b>Student Management<span> System</span></b></a>
+        <button type="submit" class="header"> <a class="lgin" href="/login/">Sign in</a></button>
+        <button type="submit" class="header"><a class="lgin" href="/account/">Sign up</a></button>
+        <button type="submit" class="header"><a class="lgin" href="/logout/">Log out</a></button>
     </div>
 
 
     <aside>
         <ul class="sidenav"">
-            <li><a href="/index/">Dashboard</a></li>
-            <li><a href="/login/">Log in</a></li>
+            <li><a href="/index/">Dashboard </a> </li>
             <li><a href="/announce/">Announcement</a></li>
             <li><a class=" active" href="/survey/">Making Surveys</a></li>
             <li><a href="/attend/">Attendence</a></li>
-            <li><a href="/logout/">Log out</a></li>
         </ul>
     </aside>
 
@@ -38,14 +40,15 @@
                 <span>Description: </span>
                 <textarea id="message" name="message" placeholder="Please discribe what the survey is for:"></textarea>
             </label>
-            <label>
+
+            <div id='question'>
+
+            </div>
+            <!-- <label>
                 <span>Please input your question #1:</span>
                 <input id="Q1" type="text" name="name" placeholder="Q1" />
-            </label>
-            <label>
-                <span>Please input your question #2:</span>
-                <input id="Q2" type="text" name="name" placeholder="Q2" />
-            </label>
+            </label> -->
+
         </form>
 
         <!-- <label>
@@ -56,26 +59,12 @@
                 <span>Please input your question #4:</span>
                 <input id="name" type="text" name="name" placeholder="Q4" />
             </label> -->
-        <button class="but" type="submit" id="submit">Send Survey</button>
+        <button class="but" type="submit" id="add">Add a question</button>
+
         <br>
-        <!-- <table class="hovertable">
-            <tr>
-                <th></th>
-                <th>Support</th>
-                <th>Oppose</th>
-            </tr>
-            <tr onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#FFF';">
-                <td>Survey 1</td>
-                <td id="Q1Yes"></td>
-                <td id="Q1No"></td>
-            </tr>
-            <tr onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#FFF';">
-                <td>Survey 2</td>
-                <td id="Q2Yes"></td>
-                <td id="Q2No"></td>
-            </tr>
-        </table> -->
-        <div id="create">        </div>
+
+        <button class="but" type="submit" id="submit">Send Survey</button>
+
         <br>
         <label>
             <button class="but" type="text" id="drag">Pull Response</button>
@@ -84,12 +73,17 @@
     <script>
         if (statusCheck()) {
             document.getElementById("title").innerHTML = "Welcome!  " + statusCheck();
+            num = 1;
+            var btn3 = document.getElementById("add");
+            btn3.onclick = function () {
+                addQuestion(num);
+                num = num+1;
+            }
             var btn1 = document.getElementById("submit");
             btn1.onclick = function () {
-                survey();
+                survey(num-1);
                 document.getElementById("message").value = '';
                 document.getElementById("Q1").value = '';
-                document.getElementById("Q2").value = '';
             }
             var btn2 = document.getElementById("drag");
             btn2.onclick = function () {
@@ -97,6 +91,24 @@
             }
         } else {
             document.getElementById("title").innerHTML = "Please Log In!";
+        }
+
+        function addQuestion(i) {
+            let input = document.createElement('input');
+            input.id = "Q" + String(i);
+            input.placeholder = "Type Q" + String(i) + ' here';
+            input.type = 'text';
+            let span = document.createElement('span');
+            let label = document.createElement('label');
+            let br = document.createElement('br');
+            span.textContent = "Please input your question " + String(i) + ' :';
+            label.id = "q" + String(i);
+            document.getElementById('question').appendChild(label);
+            document.getElementById("q" + String(i)).appendChild(span);
+            document.getElementById("question").appendChild(br);
+            document.getElementById("question").appendChild(label);
+            document.getElementById("q" + String(i)).appendChild(input);
+
         }
 
         function findResult() {

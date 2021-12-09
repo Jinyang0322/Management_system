@@ -126,7 +126,7 @@ function announce() {
 function survey(num) {
     var message = document.querySelector("#message").value;
     surveylst = new Object();
-    surveylst["discription"] = message;
+    surveylst["description"] = message;
     lst = ["#Q1","#Q2","#Q3","#Q4","#Q5","#Q6","#Q7"]
     for (i=1; i<num+1; i++){
         temp = document.querySelector(lst[i-1]).value;
@@ -150,7 +150,19 @@ function survey(num) {
         xhr.send(surveylst);
     }
 
-    alert("Your survey has been published successfully!");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            response = xhr.response;
+            console.log(response)
+            response = JSON.parse(response);
+            console.log(response.status);
+            if (response.status == "ok") {
+                alert("Your survey has been published successfully!");
+            } else {
+                alert("Error!");
+            }
+        }
+    }
 }
 
 

@@ -6,24 +6,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="{% static 'CSS/style.css' %}" rel="stylesheet">
-  <script src="{% static 'JS/main.js' %}"></script>
+  <link href="{% static 'style.css' %}" rel="stylesheet">
+  <script src="{% static 'main.js' %}"></script>
 </head>
 
 <body>
   <div class="header">
+    <img class="logo" src="{% static 'pic/logo.png' %}" alt="logo-here" width="100" height="35" />
     <a href="/index/" class="logo"><b>Student Management<span> System</span></b></a>
+    <button type="submit" class="header"> <a class="lgin" href="/login/">Sign in</a></button>
+    <button type="submit" class="header"><a class="lgin" href="/account/">Sign up</a></button>
+    <button type="submit" class="header"><a class="lgin" href="/logout/">Log out</a></button>
   </div>
 
   <aside>
     <ul class="sidenav"">
-      <li><a href="/index/">Dashboard </a> </li> 
-      <li><a href="/account/">Create Account</a></li>
-      <li><a class=" active" href="/login/">Log in</a></li>
+      <li><a href="/index/">Dashboard </a> </li>
       <li><a href="/announce/">Announcement</a></li>
       <li><a href="/survey/">Making Surveys</a></li>
       <li><a href="/attend/">Attendence</a></li>
-      <li><a href="/logout/">Log out</a></li>
     </ul>
   </aside>
 
