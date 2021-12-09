@@ -15,6 +15,7 @@ import json
 # Create your views here.
 
 
+
 def home(request):
     return render(request, 'index.html')
 
@@ -125,13 +126,23 @@ def survey(request):
         postBody = request.body
         json_result = json.loads(postBody)
         d = json_result['description']
-        q = json_result['question']
+        q = json_result['Q1']
 
         Surveytable.objects.create(discription=d, question1=q)
+        Surveyresult.objects.create()
         return JsonResponse({'status': 'ok'})
 
 
     return render(request, 'survey.html')
+
+
+@csrf_exempt
+def sendans(request):
+    if request.method == "POST":
+        count = Surveyresult.objects.last()
+        count.ans1 += 1
+    return HttpResponse('ok')
+
 # def index1(request):
 #     if request.method=="POST":
 #         username = request.POST.get("username")

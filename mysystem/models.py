@@ -54,16 +54,10 @@ class Surveytable(models.Model):
 
 
 class Surveyresult(models.Model):
-    ans1 = models.BooleanField(default=False)
-    ans2 = models.BooleanField(default=False)
-    ans3 = models.BooleanField(default=False)
-    ans4 = models.BooleanField(default=False)
-    ans5 = models.BooleanField(default=False)
-    ans6 = models.BooleanField(default=False)
-    ans7 = models.BooleanField(default=False)
-    ans8 = models.BooleanField(default=False)
-    ans9 = models.BooleanField(default=False)
-    ans10 = models.BooleanField(default=False)
+    ans1 = models.IntegerField(default=0)
+    ans2 = models.IntegerField(default=0)
+    ans3 = models.IntegerField(default=0)
+
 
 
 
