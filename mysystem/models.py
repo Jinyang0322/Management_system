@@ -47,5 +47,26 @@ class attendence(models.Model):
     stu10 = models.BooleanField(default=False)
 
 
+class Surveytable(models.Model):
+    description = models.CharField(max_length=100, null=True)
+    question1 = models.CharField(max_length=100, null=True)
+
+
+
+class Surveyresult(models.Model):
+    ans1 = models.BooleanField(default=False)
+    ans2 = models.BooleanField(default=False)
+    ans3 = models.BooleanField(default=False)
+    ans4 = models.BooleanField(default=False)
+    ans5 = models.BooleanField(default=False)
+    ans6 = models.BooleanField(default=False)
+    ans7 = models.BooleanField(default=False)
+    ans8 = models.BooleanField(default=False)
+    ans9 = models.BooleanField(default=False)
+    ans10 = models.BooleanField(default=False)
+
+
+
+
 
 

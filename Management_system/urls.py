@@ -30,6 +30,7 @@ urlpatterns = [
     path('attend/', viewattendence, name='attendence'),
     path('account/', Signup, name='register'),
     path('count/', count_attend, name='count'),
+    path('survey/', survey, name='survey'),
     # path('test/', index1, name = 'test'),
 
 ]

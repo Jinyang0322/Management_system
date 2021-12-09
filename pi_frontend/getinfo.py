@@ -22,6 +22,6 @@ def get_scheudule(sid):
     return res
 
 def send_bluez(load):
-    headers = {'Content-type': 'application/json','Accept': 'text/plain'}
+    headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
     url = 'http://127.0.0.1:8000/attend/'
     r = requests.post(url,data=json.dumps(load),headers=headers)

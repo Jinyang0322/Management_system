@@ -7,7 +7,7 @@ from datetime import date
 from mysystem.models import *
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
-from mysystem.models import course, Cornellstu, anouncement, attendence
+from mysystem.models import course, Cornellstu, anouncement, attendence, Surveytable, Surveyresult
 import datetime
 import json
 
@@ -80,8 +80,9 @@ def viewAnnouncement(request):
 
 @csrf_exempt
 def announce(request):
-    # if not request.user.is_authenticated:
-    #     return redirect('home')
+    # 这时最好显示一个请登录的提示
+    if not request.user.is_authenticated:
+        return redirect('home')
     error3 = False
 
     if request.method == "POST":
@@ -92,7 +93,7 @@ def announce(request):
         t = json_result['title']
 
         anouncement.objects.create(time=date.today, title=t, content=c)
-        return JsonResponse({'status':'ok'})
+        return JsonResponse({'status': 'ok'})
 
     return render(request, 'announce.html')
 
@@ -113,7 +114,24 @@ def admin_logout(request):
     logout(request)
     return render(request, 'logout.html')
 
+@csrf_exempt
+def survey(request):
+    if not request.user.is_authenticated:
+        return redirect('home')
+    error3 = False
 
+    if request.method == "POST":
+
+        postBody = request.body
+        json_result = json.loads(postBody)
+        d = json_result['description']
+        q = json_result['question']
+
+        Surveytable.objects.create(discription=d, question1=q)
+        return JsonResponse({'status': 'ok'})
+
+
+    return render(request, 'survey.html')
 # def index1(request):
 #     if request.method=="POST":
 #         username = request.POST.get("username")
