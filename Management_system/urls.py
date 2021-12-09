@@ -33,7 +33,8 @@ urlpatterns = [
     path('survey/', survey, name='survey'),
     path('survey/answer/', sendans, name='sendanswer'),
     path('response/', viewresponse, name='response'),
-    path('viewquestion/', viewquestion, name='questions')
+    path('viewquestion/', viewquestion, name='questions'),
+    path('test/', viewtest, name='test')
 
 
 

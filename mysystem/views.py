@@ -71,12 +71,34 @@ def viewattendence(request):
         print("wrong user")
         return redirect('home')
     if request.method == "POST":
-        order = attendence.objects.last()
-        a = {'1': order.stu1, '2': order.stu2, '3': order.stu3, '4': order.stu4, '5': order.stu5, '6': order.stu6,
-             '7': order.stu7, '8': order.stu8, '9': order.stu9, '10': order.stu10 }
-        d = {'data1': order}
-        return JsonResponse(a)
+        orders = attendence.objects.all()
+        dic = {}
+        count = 0
+        for order in orders:
+            a = {'1': order.stu1, '2': order.stu2, '3': order.stu3, '4': order.stu4, '5': order.stu5, '6': order.stu6,
+                 '7': order.stu7, '8': order.stu8, '9': order.stu9, '10': order.stu10}
+            dic[count] = a
+            count += 1
+        return JsonResponse(dic)
     return render(request, 'attend.html')
+
+
+@csrf_exempt
+def viewtest(request):
+    if not request.user.is_authenticated:
+        print("wrong user")
+        return redirect('home')
+
+    orders = attendence.objects.all()
+    dic = {}
+    count = 0
+    for order in orders:
+        a = {'1': order.stu1, '2': order.stu2, '3': order.stu3, '4': order.stu4, '5': order.stu5, '6': order.stu6,
+             '7': order.stu7, '8': order.stu8, '9': order.stu9, '10': order.stu10}
+        dic[count] = a
+        count += 1
+    return JsonResponse(dic)
+
 
 
 def viewAnnouncement(request):
