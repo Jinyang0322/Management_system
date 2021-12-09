@@ -157,7 +157,12 @@ def viewresponse(request):
         ques = content.Q1
         a = {'description': cont, 'Q1': ques,  'response': ans}
         return JsonResponse(a)
-    return render(request, 'attend.html')
+    return render(request, 'survey.html')
+
+
+def viewquestion(request):
+    return HttpResponse('待续')
+    
 
 # def index1(request):
 #     if request.method=="POST":
