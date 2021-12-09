@@ -1,5 +1,8 @@
 import requests
-import json
+import pygame
+from datetime import date
+import time
+
 
 def get_announcement():
     res = []
@@ -21,6 +24,16 @@ def get_scheudule(sid):
 
     return res
 
+def get_question():
+    res = []
+    url = 'http://127.0.0.1:8000/viewquestion/'
+    r = requests.get(url=url)
+    dic = r.json()
+    for i in dic.values():
+        res.append(i)
+
+    return res
+
 
 def post_ans():
     payload = {}
@@ -28,9 +41,18 @@ def post_ans():
     r = requests.post(url=url, data=payload)
 
 
-def send_bluez(load):
-    headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-    url = 'http://127.0.0.1:8000/attend/'
-    r = requests.post(url,data=json.dumps(load),headers=headers)
+# def drawBackground():
+#     bg = pygame.image.load("bg_image.jpg")
+#     bg = pygame.transform.scale(bg, (320, 240))
+#     screen.blit(bg, (0, 0))
+#
+# def drawIcon():
+#     icon = pygame.image.load("delivery.png")
+#     icon = pygame.transform.scale(icon, (40, 40))
+#     screen.blit(icon, (270, 10))
 
-post_ans()
+
+
+
+
+
