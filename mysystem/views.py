@@ -141,6 +141,7 @@ def sendans(request):
     if request.method == "POST":
         count = Surveyresult.objects.last()
         count.ans1 += 1
+        count.save()
     return HttpResponse('ok')
 
 

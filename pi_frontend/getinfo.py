@@ -21,7 +21,16 @@ def get_scheudule(sid):
 
     return res
 
+
+def post_ans():
+    payload = {}
+    url = 'http://127.0.0.1:8000/survey/answer/'
+    r = requests.post(url=url, data=payload)
+
+
 def send_bluez(load):
     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
     url = 'http://127.0.0.1:8000/attend/'
     r = requests.post(url,data=json.dumps(load),headers=headers)
+
+post_ans()
