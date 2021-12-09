@@ -15,8 +15,16 @@ import json
 # Create your views here.
 
 
-
+@csrf_exempt
 def home(request):
+    res = []
+    if request.method == "POST":
+        count1 = anouncement.objects.all().count()
+        count2 = Surveytable.objects.all().count()
+        count3 = Cornellstu.objects.all().count()
+        d = {'announcement': count1, 'survey': count2, 'stu_number': count3}
+        # return render(request, 'login.html', d)
+        return JsonResponse(d)
     return render(request, 'index.html')
 
 @csrf_exempt
