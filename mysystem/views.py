@@ -187,7 +187,7 @@ def viewresponse(request):
         ques = content.question1
         a = {'description': cont, 'Q1': ques,  'response': ans}
         return JsonResponse(a)
-    return render(request, 'survey.html')
+    return render(request, 'response.html')
 
 
 def viewquestion(request):
