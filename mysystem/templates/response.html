@@ -30,18 +30,30 @@
 
     <div id="main-content">
         <h1 class="main" id="title"></h1>
-
-        <label>
+        <br><br><br>
+        <div class='descrip'>
+            <a>The Description of the survey:</a>
+            <br><br><br>
+            <b id='desss'></b>
+        </div>
+        <br><br><br><br>
+        <div class='table-2'>
+            <div id='create' class="table-1"></div>
+        </div>
+        
+        <!-- <div id='create'></div> -->
+        <!-- <label>
             <button class="but" type="text" id="drag">Pull Response</button>
-        </label>
+        </label> -->
     </div>
     <script>
         if (statusCheck()) {
             document.getElementById("title").innerHTML = "Welcome!  " + statusCheck();
-            var btn2 = document.getElementById("drag");
-            btn2.onclick = function () {
-                findResult();
-            }
+            findResult();
+            // var btn2 = document.getElementById("drag");
+            // btn2.onclick = function () {
+            //     findResult();
+            // }
         } else {
             document.getElementById("title").innerHTML = "Please Log In!";
         }
@@ -55,9 +67,20 @@
                 if (xhr.readyState === 4) {
                     response = xhr.responseText;
                     response = JSON.parse(response);
-                    console.log(response.survey1_yes);
                     // temp = [response.survey1_yes, response.survey1_no, response.survey2_yes, response.survey2_no];
-                    temp = [response.survey1_yes, response.survey1_no];
+                    console.log(response)
+                    description = response.description;
+                    ques1 = response.Q1;
+                    survey1_yes = response.response;
+                    if (survey1_yes==1){
+                        survey1_no=0;
+                    }else{
+                        survey1_no=1;
+                    }
+                    // survey1_no = response.Q2;
+                    temp = [survey1_yes, survey1_no, ques1];
+                    console.log(temp);
+                    document.getElementById("desss").innerHTML=description;
                     createTable(temp);
                 }
             }
@@ -75,13 +98,16 @@
             document.getElementById('create').appendChild(table);
             // Creating and adding data to first row of the table
             let row_1 = document.createElement('tr');
+            let heading_4 = document.createElement('th');
+            heading_4.innerHTML = "";
             let heading_1 = document.createElement('th');
-            heading_1.innerHTML = "";
+            heading_1.innerHTML = "Question";
             let heading_2 = document.createElement('th');
-            heading_2.innerHTML = "Support";
+            heading_2.innerHTML = "Yes";
             let heading_3 = document.createElement('th');
-            heading_3.innerHTML = "Oppose";
+            heading_3.innerHTML = "No";
 
+            row_1.appendChild(heading_4);
             row_1.appendChild(heading_1);
             row_1.appendChild(heading_2);
             row_1.appendChild(heading_3);
@@ -89,13 +115,16 @@
 
             // Creating and adding data to second row of the table
             let row_2 = document.createElement('tr');
+            let row_2_data_4 = document.createElement('td');
+            row_2_data_4.innerHTML = "Q1";
             let row_2_data_1 = document.createElement('td');
-            row_2_data_1.innerHTML = "Survey 1";
+            row_2_data_1.innerHTML = temp[2];
             let row_2_data_2 = document.createElement('td');
             row_2_data_2.innerHTML = temp[0];
             let row_2_data_3 = document.createElement('td');
             row_2_data_3.innerHTML = temp[1];
 
+            row_2.appendChild(row_2_data_4);
             row_2.appendChild(row_2_data_1);
             row_2.appendChild(row_2_data_2);
             row_2.appendChild(row_2_data_3);
