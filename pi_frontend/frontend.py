@@ -1,15 +1,13 @@
-# Author: Shuhua Li (sl2737), Yangyang Peng (yp373)
-# Lab Section: Thursday
-# Date: 2018-09-27
-# Lab: Lab 2
+
 import os
 import time
 import numpy as np
 import pygame
-from getinfo import get_announcement, get_scheudule
+from getinfo import get_announcement, get_scheudule, get_question, post_ans
 from pygame.locals import MOUSEBUTTONDOWN, MOUSEBUTTONUP
 from datetime import date
 import time
+from bf_button import BFButton
 
 # import RPi.GPIO as GPIO
 #
@@ -47,6 +45,7 @@ class Frontend:
         self.my_buttons = {'Start': (80, 220), 'Quit': (240, 220)}
         self.my_buttons_lv2 = {'1.show courses': (100, 50), '2. view announcement': (100, 100), '3.vote for survey': (100, 150)}
         self.my_buttons_lv3 = {'Back': (290, 220)}
+        self.my_buttons_lv4 = {'True': (90, 130), 'False': (230, 130)}
         self.cord = 'welcome, Jinyang'  # Set initial text
         self.date = str(date.today())
         self.time = time.strftime("%H:%M:%S")
@@ -56,6 +55,12 @@ class Frontend:
         self.cord_rect = self.cord_surface.get_rect(center=(160, 100))
         self.time_rect = self.time_surface.get_rect(center=(160, 150))
         self.date_rect = self.date_surface.get_rect(center=(160, 180))
+        self.RED = 255, 0, 0
+        self.cursorIdx = 0
+        self.cursor = {'-->': (80, 50)}
+        self.button1 = BFButton(self.screen, (40, 210, 80, 30), text='Start')
+        self.button2 = BFButton(self.screen, (200, 210, 80, 30), text='Quit')
+        self.button3 = BFButton(self.screen, (240, 210, 80, 30), text='Back')
 
 
 
@@ -74,6 +79,15 @@ class Frontend:
         icon = pygame.transform.scale(icon, (40, 40))
         self.screen.blit(icon, (20, 10))
 
+    def drawCursor(self):
+        # draw the buttons
+        for my_text, pos in self.cursor.items():
+            vertical = 50 + self.cursorIdx * 50
+            pos = (70, vertical)
+            text_surface = self.my_font.render(my_text, True, self.RED)
+            orderRect = text_surface.get_rect(topleft=pos)
+            self.screen.blit(text_surface, orderRect)
+
 
 
 
@@ -86,6 +100,8 @@ class Frontend:
         timelimit = 600
         starttime = time.time()
         res = []
+        length = 0
+        num = 0
         while True:
             time.sleep(0.2)
             self.drawBackground()
@@ -104,30 +120,51 @@ class Frontend:
                     print(cord)  # Also print coordinates in concole
                     if playanimation:  # If currently playing animation
                     # Check touch event on 2nd level buttons
-                        if 200 > x > 100 :
+                        if 200 > x > 110 :
                             if y < 75:  # If pause/resume button is pressed
-                                res = get_scheudule('jd2249')
-                                showmessage = True
+                                if num != 1:
+                                    num = 1
+                                    self.cursorIdx = 0
+                                else:
+                                    res = get_scheudule('jd2249')
+                                    showmessage = True
 
                             elif y < 125:  # If fast button is pressed
-                                res = get_announcement()
-                                showmessage = True
-
-
+                                if num != 2:
+                                    num = 2
+                                    self.cursorIdx = 1
+                                else:
+                                    res = get_announcement()
+                                    showmessage = True
                             elif y < 175:  # If slow button is pressed
-                                showmessage = True
-                                # 蓝牙part
-                                bluetooth = 0
-                        elif y > 200 and x > 270:  # If back button is pressed
+                                if num != 3:
+                                    num = 3
+                                    self.cursorIdx = 2
+                                else:
+                                    showmessage = True
+                                    res = get_question()
+
+                        elif y > 200 and x > 250:  # If back button is pressed
                             if showmessage:
                                 showmessage = False
+                                num = 0
                             else:
                                 playanimation = False  # Return to 1st level
+
+                        elif length == 1 and showmessage:
+                            print('111111')
+                            if 115 < y < 145:
+                                if 70 < x < 110:
+                                    showmessage = False
+                                    post_ans()
+                                elif 210 < x < 250:
+                                    showmessage = False
+
                     else:  # Check touch event on 1st level buttons
                         if y > 200:
-                            if x < 160:  # If play button is pressed
+                            if 40 < x < 120:  # If play button is pressed
                                 playanimation = True  # Switch to animation mode
-                            else:  # If quit button is pressed
+                            elif 200 < x < 280:  # If quit button is pressed
                                 exit(True)  # Exit program
             # screen.fill(self.BLACK)  # Flush screen
             if (playanimation):  # If currently playing animation
@@ -141,17 +178,26 @@ class Frontend:
                         text_surface = self.my_font.render(my_text, True, self.BLACK)
                         rect = text_surface.get_rect(topleft=text_pos)
                         screen.blit(text_surface, rect)
+                    self.drawCursor()
                 else:
                     for line in range(length):
                         content_surface = self.my_font.render(res[line], True, self.BLACK)
                         content_rect = content_surface.get_rect(center=[160, 50+line*25])
                         screen.blit(content_surface, content_rect)
+                    if length == 1:
+                        for my_text, text_pos in self.my_buttons_lv4.items():
+                            text_surface = self.my_font.render(my_text, True, self.BLACK)
+                            rect = text_surface.get_rect(center=text_pos)
+                            screen.blit(text_surface, rect)
+
+
 
             # Attach 2nd level buttons to screen
-                for my_text, text_pos in self.my_buttons_lv3.items():
-                    text_surface = self.my_font.render(my_text, True, self.BLACK)
-                    rect = text_surface.get_rect(center=text_pos)
-                    screen.blit(text_surface, rect)
+                self.button3.draw()
+                # for my_text, text_pos in self.my_buttons_lv3.items():
+                #     text_surface = self.my_font.render(my_text, True, self.BLACK)
+                #     rect = text_surface.get_rect(center=text_pos)
+                #     screen.blit(text_surface, rect)
             else:  # If currently not playing animation, display touch position coordinates
                 time1 = time.strftime("%H:%M:%S")
                 time_surface = self.my_font1.render(time1, True, self.BLACK)
@@ -160,19 +206,22 @@ class Frontend:
                 screen.blit(time_surface, time_rect)
                 screen.blit(self.date_surface, self.date_rect)
                 # Attach 1sd level buttons to screen
-                for my_text, text_pos in self.my_buttons.items():
-                    # default = 'choose a function'  # Set initial text
-                    # default_surface = self.my_font.render(default, True, self.WHITE)
-                    # default_rect = default_surface.get_rect(center=(160, 100))
-                    # screen.blit(default_surface, default_rect)
-                    text_surface = self.my_font.render(my_text, True, self.BLACK)
-                    rect = text_surface.get_rect(center=text_pos)
-                    screen.blit(text_surface, rect)
+                self.button1.draw()
+                self.button2.draw()
+                # for my_text, text_pos in self.my_buttons.items():
+                #     # default = 'choose a function'  # Set initial text
+                #     # default_surface = self.my_font.render(default, True, self.WHITE)
+                #     # default_rect = default_surface.get_rect(center=(160, 100))
+                #     # screen.blit(default_surface, default_rect)
+                #     text_surface = self.my_font.render(my_text, True, self.BLACK)
+                #     rect = text_surface.get_rect(center=text_pos)
+                #     screen.blit(text_surface, rect)
             pygame.display.flip()  # Display new frame
             # Set bail button
             currenttime = time.time()
             if (currenttime - starttime > timelimit):
                 exit(True)
+
 
 
 c = Frontend()
