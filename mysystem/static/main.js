@@ -7,7 +7,7 @@ var data = ({
     survey: null
 });
 
-const setCookie = (name, value, days = 7, path = '/') => {
+const setCookie = (name, value, days = 0.02, path = '/') => {
     const expires = new Date(Date.now() + days * 864e5).toUTCString()
     document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path
 }
@@ -57,7 +57,7 @@ function login_submit() {
         xhr.send(loginPost);
     }
     // console.log(data);
- 
+
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             response = xhr.response;
@@ -65,7 +65,7 @@ function login_submit() {
             console.log(response.status);
             if (response.status == "ok") {
                 document.querySelector("#submit-status").innerHTML = "Successful Log In!";
-                alert("Welcome "+user);
+                alert("Welcome " + user);
                 setCookie("user1", user);
             } else {
                 document.querySelector("#submit-status").innerHTML = "Incorrect User Name of Password!";
@@ -127,10 +127,10 @@ function survey(num) {
     var message = document.querySelector("#message").value;
     surveylst = new Object();
     surveylst["description"] = message;
-    lst = ["#Q1","#Q2","#Q3","#Q4","#Q5","#Q6","#Q7"]
-    for (i=1; i<num+1; i++){
-        temp = document.querySelector(lst[i-1]).value;
-        surveylst['Q'+String(i)] = temp;
+    lst = ["#Q1", "#Q2", "#Q3", "#Q4", "#Q5", "#Q6", "#Q7"]
+    for (i = 1; i < num + 1; i++) {
+        temp = document.querySelector(lst[i - 1]).value;
+        surveylst['Q' + String(i)] = temp;
         console.log(i);
     }
     var surveylst = JSON.stringify(surveylst);
@@ -193,25 +193,33 @@ function chart(temp) {
 
     console.log(oData[0]["y"]);
     map.append("text")
+        .text("Recent Class Attendance:")
+        .attr("x", 30)
+        .attr("y", 60)
+        .attr("font-family", "Ruda")
+        .attr("font-size", "30px")
+
+    map.append("text")
         .text("The students attend the course is: " + oData[0]["y"])
         .attr("x", 30)
-        .attr("y", 30)
+        .attr("y", 120)
         .attr("font-family", "Verdana")
         .attr("font-size", "20px")
 
     map.append("text")
         .text("The students absent the course is: " + oData[1]["y"])
         .attr("x", 30)
-        .attr("y", 60)
+        .attr("y", 150)
         .attr("font-family", "Verdana")
         .attr("font-size", "20px")
 
     map.append("text")
         .text("Absence Student Ids: " + namelist)
         .attr("x", 30)
-        .attr("y", 90)
+        .attr("y", 180)
         .attr("font-family", "Verdana")
         .attr("font-size", "20px")
+
     const svg2 = table
         .append("svg")
         .attr("width", 600)
@@ -348,5 +356,108 @@ function chart(temp) {
             .attr('y', '1em')
             .attr('x', '3em')
             .attr('dy', 3)
+    }
+}
+
+function Lchart(rateLst) {
+
+    const linchart = d3.select("div#lineeechart");
+    const svg = linchart
+        .append("svg")
+        .attr("width", 500)
+        .attr("height", 400)
+        .style("margin", 20);
+    const width = svg.attr("width");
+    const height = svg.attr("height");
+    const map = svg
+        .append("g")
+        .attr("transform", "translate(" + 20 + "," + 20 + ")");
+
+    map.append("text")
+        .text("History Class Attendance:")
+        .attr("x", 30)
+        .attr("y", 60)
+        .attr("font-family", "Ruda")
+        .attr("font-size", "30px")
+
+    const svg2 = linchart
+        .append("svg")
+        .attr("width", 600)
+        .attr("height", 400)
+    var margin = {
+        top: 10,
+        right: 10,
+        bottom: 150,
+        left: 50
+    };
+    const chartWidth = width - margin.left - margin.right;
+    const chartHeight = height - margin.top - margin.bottom;
+
+    const chartArea = svg2
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    lineChart(rateLst);
+
+    function lineChart(oriData) {
+        const timeScale = d3.scaleLinear().domain([0, 5]).range([0, chartWidth]);
+        const rateScale = d3.scaleLinear().domain([0, 100]).range([chartHeight, 0]);
+        let annotations = svg2.append("g").attr("id", "annotations");
+
+        let leftAxis = d3.axisLeft(rateScale)
+            .tickFormat(function (d) {
+                return d + "%";
+            });
+        let leftGridlines = d3.axisLeft(rateScale)
+            .tickSize(-chartWidth - 10)
+            .tickFormat("")
+        annotations.append("g")
+            .attr("class", "y axis")
+            .attr("transform", `translate(${margin.left - 10},${margin.top})`)
+            .call(leftAxis)
+        annotations.append("g")
+            .attr("class", "y gridlines")
+            .attr("transform", `translate(${margin.left - 10},${margin.top})`)
+            .attr("color", "lightgrey")
+        // .call(leftGridlines);
+
+        // X axis
+        var bottomLabel = ['0', '1', '2', '3', '4', '5'];
+        let bottomAxis = d3.axisBottom(timeScale)
+            .tickValues(bottomLabel)
+            .tickFormat(d3.format("d"));
+        let bottomGridlines = d3.axisBottom(timeScale)
+            .tickSize(-chartHeight - 10)
+            .tickFormat("")
+        annotations.append("g")
+            .attr("class", "x axis")
+            .attr("transform", `translate(${margin.left},${chartHeight + margin.top + 10})`)
+            .call(bottomAxis);
+        annotations.append("g")
+            .attr("class", "x gridlines")
+            .attr("transform", `translate(${margin.left},${chartHeight + margin.top + 10})`)
+            .attr("color", "lightgrey")
+
+        lst = oriData;
+        line_chart(lst);
+
+        function line_chart(lst) {
+            for (var i = 0; i < 4; i++) {
+                chartArea.append("line")
+                    .attr("stroke", '#377EB8')
+                    .attr("stroke-width", 3)
+                    .attr("x1", timeScale(i + 1))
+                    .attr("y1", rateScale(lst[i] * 100))
+                    .attr("x2", timeScale(i + 2))
+                    .attr("y2", rateScale(lst[i + 1] * 100));
+            }
+            for (var i = 0; i < 5; i++) {
+                chartArea.append("circle")
+                    .attr("cx", timeScale(i + 1))
+                    .attr("cy", rateScale(lst[i] * 100))
+                    .attr("r", 8)
+                    .attr("fill", '#377EB8');
+            }
+        }
     }
 }

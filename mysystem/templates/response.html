@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+    <script src="{% static 'main.js' %}"></script>
+</head>
+
+<body>
+    <div class="header">
+        <img class="logo" src="{% static 'pic/logo.png' %}" alt="logo-here" width="100" height="35" />
+        <a href="/index/" class="logo"><b>Student Management<span> System</span></b></a>
+        <button type="submit" class="header"><a class="lgin" href="/logout/">Log out</a></button>
+    </div>
+
+
+    <aside>
+        <ul class="sidenav"">
+            <li><a href="/index/">Dashboard </a> </li> <li><a href="/announce/">Announcement</a></li>
+            <li><a href="/survey/">Making Surveys</a></li>
+            <li><a class=" active" href="/response/">View response</a></li>
+            <li><a href="/attend/">Attendence</a></li>
+        </ul>
+    </aside>
+
+    <div id="main-content">
+        <h1 class="main" id="title"></h1>
+
+        <label>
+            <button class="but" type="text" id="drag">Pull Response</button>
+        </label>
+    </div>
+    <script>
+        if (statusCheck()) {
+            document.getElementById("title").innerHTML = "Welcome!  " + statusCheck();
+            var btn2 = document.getElementById("drag");
+            btn2.onclick = function () {
+                findResult();
+            }
+        } else {
+            document.getElementById("title").innerHTML = "Please Log In!";
+        }
+
+        function findResult() {
+            var url = "./";
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', url);
+            xhr.send();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    response = xhr.responseText;
+                    response = JSON.parse(response);
+                    console.log(response.survey1_yes);
+                    // temp = [response.survey1_yes, response.survey1_no, response.survey2_yes, response.survey2_no];
+                    temp = [response.survey1_yes, response.survey1_no];
+                    createTable(temp);
+                }
+            }
+        }
+
+        function createTable(temp) {
+            let table = document.createElement('table');
+            let thead = document.createElement('thead');
+            let tbody = document.createElement('tbody');
+
+            table.appendChild(thead);
+            table.appendChild(tbody);
+
+            // Adding the entire table to the body tag
+            document.getElementById('create').appendChild(table);
+            // Creating and adding data to first row of the table
+            let row_1 = document.createElement('tr');
+            let heading_1 = document.createElement('th');
+            heading_1.innerHTML = "";
+            let heading_2 = document.createElement('th');
+            heading_2.innerHTML = "Support";
+            let heading_3 = document.createElement('th');
+            heading_3.innerHTML = "Oppose";
+
+            row_1.appendChild(heading_1);
+            row_1.appendChild(heading_2);
+            row_1.appendChild(heading_3);
+            thead.appendChild(row_1);
+
+            // Creating and adding data to second row of the table
+            let row_2 = document.createElement('tr');
+            let row_2_data_1 = document.createElement('td');
+            row_2_data_1.innerHTML = "Survey 1";
+            let row_2_data_2 = document.createElement('td');
+            row_2_data_2.innerHTML = temp[0];
+            let row_2_data_3 = document.createElement('td');
+            row_2_data_3.innerHTML = temp[1];
+
+            row_2.appendChild(row_2_data_1);
+            row_2.appendChild(row_2_data_2);
+            row_2.appendChild(row_2_data_3);
+            tbody.appendChild(row_2);
+
+            // Creating and adding data to third row of the table
+            // let row_3 = document.createElement('tr');
+            // let row_3_data_1 = document.createElement('td');
+            // row_3_data_1.innerHTML = "Survey 2";
+            // let row_3_data_2 = document.createElement('td');
+            // row_3_data_2.innerHTML = temp[2];
+            // let row_3_data_3 = document.createElement('td');
+            // row_3_data_3.innerHTML = temp[3];
+
+            // row_3.appendChild(row_3_data_1);
+            // row_3.appendChild(row_3_data_2);
+            // row_3.appendChild(row_3_data_3);
+            // tbody.appendChild(row_3);
+        }
+    </script>
+</body>
+
+</html>

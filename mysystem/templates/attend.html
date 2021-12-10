@@ -16,27 +16,25 @@
     <div class="header">
         <img class="logo" src="{% static 'pic/logo.png' %}" alt="logo-here" width="100" height="35" />
         <a href="/index/" class="logo"><b>Student Management<span> System</span></b></a>
-        <button type="submit" class="header"> <a class="lgin" href="/login/">Sign in</a></button>
-        <button type="submit" class="header"><a class="lgin" href="/account/">Sign up</a></button>
-        <button type="submit" class="header"><a class="lgin" href="/logout/">Log out</a></button>    </div>
+        <button type="submit" class="header"><a class="lgin" href="/logout/">Log out</a></button> </div>
 
     <aside>
         <ul class="sidenav"">
-            <li><a class=" active" href="/index/">Dashboard </a> </li>
-            <li><a href="/announce/">Announcement</a></li>
+            <li><a href="/index/">Dashboard </a> </li> <li><a href="/announce/">Announcement</a></li>
             <li><a href="/survey/">Making Surveys</a></li>
-            <li><a href="/attend/">Attendence</a></li>
+            <li><a href="/response/">View response</a></li>
+            <li><a class=" active" href="/attend/">Attendence</a></li>
         </ul>
     </aside>
 
     <div id="main-content">
         <h1 class="main" id="title"></h1>
         <div id="table" height="400" width="1100"></div>
-        <div id="piechart" height="400" width="400"></div>
+        <div class='ccchart' id="lineeechart" height="400" width="1100"></div>
     </div>
-    <div class="login">
+    <!-- <div class="login">
         <button class="but" type="submit" id="getAttend">Get attendence!</button>
-    </div>
+    </div> -->
 </body>
 
 <script>
@@ -46,10 +44,11 @@
     } else {
         document.getElementById("title").innerHTML = "Please Log In!";
     }
-    var btn = document.getElementById("getAttend");
-    btn.onclick = function () {
-        var temp = findAbsent();
-    }
+    // var btn = document.getElementById("getAttend");
+    // btn.onclick = function () {
+    //     var temp = findAbsent();
+    // }
+    findAbsent();
 
     function findAbsent() {
         var url = "./";
@@ -62,12 +61,48 @@
                 response = xhr.response;
                 response = JSON.parse(response);
                 console.log(response);
+                for (p = 0; p < 50; p++) {
+                    if (response[p] != null) {
+                        tot = p;
+                    }
+                }
+                rate = [];
+                for (p = 1; p < tot+1; p++) {
+                    if (response[p] == null) {
+                        rate.push(0);
+                    } else {
+                        temp = response[p]
+                        tr = 0;
+                        fa = 0;
+                        for (i = 0; i < 50; i++) {
+                            if (temp[i] != null) {
+                                if (temp[i] == true) {
+                                    tr = tr + 1;
+                                } else {
+                                    fa = fa + 1;
+                                }
+                            }
+                        }
+                        rate.push(tr / (tr + fa));
+                    }
+                }
+                if(rate.length < 6){
+                    miss = 5-rate.length;
+                    for(i=0; i<miss; i++){
+                        rate.unshift(0);
+                    }
+                }
+                else{
+                    rate = rate.slice(tot-4,tot+1);
+                }
+                console.log(rate);
+                responseL = response[tot];
                 numTrue = 0;
                 numFalse = 0;
                 numLst = [];
-                for(i=0; i<50; i++){
-                    if(response[i] != null){
-                        if (response[i] == true){
+                for (i = 0; i < 50; i++) {
+                    if (responseL[i] != null) {
+                        if (responseL[i] == true) {
                             numTrue = numTrue + 1;
                         } else {
                             numFalse = numFalse + 1;
@@ -78,6 +113,7 @@
                 temp = [numTrue, numFalse, numLst];
                 console.log(temp);
                 chart(temp);
+                Lchart(rate);
             }
         }
     }

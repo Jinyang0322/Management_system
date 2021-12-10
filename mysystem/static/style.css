@@ -240,7 +240,12 @@ h1.main {
 #table {
     margin-left: 60px;
 }
-
+#lineeechart {
+    margin-left: 60px;
+}
+.ccchart{
+    margin-left: 60px;
+}
 table.hovertable {
     font-family: verdana,arial,sans-serif;
     font-size:20px;

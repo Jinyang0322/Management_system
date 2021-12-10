@@ -15,8 +15,6 @@
     <div class="header">
         <img class="logo" src="{% static 'pic/logo.png' %}" alt="logo-here" width="100" height="35" />
         <a href="/index/" class="logo"><b>Student Management<span> System</span></b></a>
-        <button type="submit" class="header"> <a class="lgin" href="/login/">Sign in</a></button>
-        <button type="submit" class="header"><a class="lgin" href="/account/">Sign up</a></button>
         <button type="submit" class="header"><a class="lgin" href="/logout/">Log out</a></button>
     </div>
 
@@ -26,6 +24,7 @@
             <li><a href="/index/">Dashboard </a> </li>
             <li><a href="/announce/">Announcement</a></li>
             <li><a class=" active" href="/survey/">Making Surveys</a></li>
+            <li><a href="/response/">View response</a></li>
             <li><a href="/attend/">Attendence</a></li>
         </ul>
     </aside>
@@ -66,9 +65,9 @@
         <button class="but" type="submit" id="submit">Send Survey</button>
 
         <br>
-        <label>
+        <!-- <label>
             <button class="but" type="text" id="drag">Pull Response</button>
-        </label>
+        </label> -->
     </div>
     <script>
         if (statusCheck()) {
@@ -85,10 +84,10 @@
                 document.getElementById("message").value = '';
                 document.getElementById("Q1").value = '';
             }
-            var btn2 = document.getElementById("drag");
-            btn2.onclick = function () {
-                findResult();
-            }
+            // var btn2 = document.getElementById("drag");
+            // btn2.onclick = function () {
+            //     findResult();
+            // }
         } else {
             document.getElementById("title").innerHTML = "Please Log In!";
         }
