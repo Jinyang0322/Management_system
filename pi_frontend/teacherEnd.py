@@ -60,6 +60,7 @@ class Frontend:
         self.cursor = {'-->': (80, 50)}
         self.button1 = BFButton(self.screen, (40, 210, 80, 30), text='Start')
         self.button2 = BFButton(self.screen, (200, 210, 80, 30), text='Quit')
+        self.button3 = BFButton(self.screen, (240, 210, 80, 30), text='Back')
 
 
 
@@ -143,7 +144,7 @@ class Frontend:
                                     showmessage = True
                                     res = get_question()
 
-                        elif y > 200 and x > 270:  # If back button is pressed
+                        elif y > 200 and x > 250:  # If back button is pressed
                             if showmessage:
                                 showmessage = False
                                 num = 0
@@ -192,10 +193,11 @@ class Frontend:
 
 
             # Attach 2nd level buttons to screen
-                for my_text, text_pos in self.my_buttons_lv3.items():
-                    text_surface = self.my_font.render(my_text, True, self.BLACK)
-                    rect = text_surface.get_rect(center=text_pos)
-                    screen.blit(text_surface, rect)
+                self.button3.draw()
+                # for my_text, text_pos in self.my_buttons_lv3.items():
+                #     text_surface = self.my_font.render(my_text, True, self.BLACK)
+                #     rect = text_surface.get_rect(center=text_pos)
+                #     screen.blit(text_surface, rect)
             else:  # If currently not playing animation, display touch position coordinates
                 time1 = time.strftime("%H:%M:%S")
                 time_surface = self.my_font1.render(time1, True, self.BLACK)
