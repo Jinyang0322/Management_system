@@ -54,6 +54,9 @@ class Frontend:
         self.cord_rect = self.cord_surface.get_rect(center=(160, 100))
         self.time_rect = self.time_surface.get_rect(center=(160, 150))
         self.date_rect = self.date_surface.get_rect(center=(160, 180))
+        self.RED = 255, 0, 0
+        self.cursorIdx = 0
+        self.cursor = {'-->': (80, 50)}
 
 
 
@@ -72,6 +75,15 @@ class Frontend:
         icon = pygame.transform.scale(icon, (40, 40))
         self.screen.blit(icon, (20, 10))
 
+    def drawCursor(self):
+        # draw the buttons
+        for my_text, pos in self.cursor.items():
+            vertical = 50 + self.cursorIdx * 50
+            pos = (70, vertical)
+            text_surface = self.my_font.render(my_text, True, self.RED)
+            orderRect = text_surface.get_rect(topleft=pos)
+            self.screen.blit(text_surface, orderRect)
+
 
 
 
@@ -85,6 +97,7 @@ class Frontend:
         starttime = time.time()
         res = []
         length = 0
+        num = 0
         while True:
             time.sleep(0.2)
             self.drawBackground()
@@ -105,21 +118,32 @@ class Frontend:
                     # Check touch event on 2nd level buttons
                         if 200 > x > 110 :
                             if y < 75:  # If pause/resume button is pressed
-                                res = get_scheudule('jd2249')
-                                showmessage = True
+                                if num != 1:
+                                    num = 1
+                                    self.cursorIdx = 0
+                                else:
+                                    res = get_scheudule('jd2249')
+                                    showmessage = True
 
                             elif y < 125:  # If fast button is pressed
-                                res = get_announcement()
-                                showmessage = True
-
-
+                                if num != 2:
+                                    num = 2
+                                    self.cursorIdx = 1
+                                else:
+                                    res = get_announcement()
+                                    showmessage = True
                             elif y < 175:  # If slow button is pressed
-                                showmessage = True
-                                res = get_question()
+                                if num != 3:
+                                    num = 3
+                                    self.cursorIdx = 2
+                                else:
+                                    showmessage = True
+                                    res = get_question()
 
                         elif y > 200 and x > 270:  # If back button is pressed
                             if showmessage:
                                 showmessage = False
+                                num = 0
                             else:
                                 playanimation = False  # Return to 1st level
 
@@ -150,6 +174,7 @@ class Frontend:
                         text_surface = self.my_font.render(my_text, True, self.BLACK)
                         rect = text_surface.get_rect(topleft=text_pos)
                         screen.blit(text_surface, rect)
+                    self.drawCursor()
                 else:
                     for line in range(length):
                         content_surface = self.my_font.render(res[line], True, self.BLACK)
@@ -189,6 +214,7 @@ class Frontend:
             currenttime = time.time()
             if (currenttime - starttime > timelimit):
                 exit(True)
+
 
 
 c = Frontend()
