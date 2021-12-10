@@ -7,6 +7,7 @@ from getinfo import get_announcement, get_scheudule, get_question, post_ans
 from pygame.locals import MOUSEBUTTONDOWN, MOUSEBUTTONUP
 from datetime import date
 import time
+from bf_button import BFButton
 
 # import RPi.GPIO as GPIO
 #
@@ -57,6 +58,8 @@ class Frontend:
         self.RED = 255, 0, 0
         self.cursorIdx = 0
         self.cursor = {'-->': (80, 50)}
+        self.button1 = BFButton(self.screen, (40, 210, 80, 30), text='Start')
+        self.button2 = BFButton(self.screen, (200, 210, 80, 30), text='Quit')
 
 
 
@@ -158,9 +161,9 @@ class Frontend:
 
                     else:  # Check touch event on 1st level buttons
                         if y > 200:
-                            if x < 160:  # If play button is pressed
+                            if 40 < x < 120:  # If play button is pressed
                                 playanimation = True  # Switch to animation mode
-                            else:  # If quit button is pressed
+                            elif 200 < x < 280:  # If quit button is pressed
                                 exit(True)  # Exit program
             # screen.fill(self.BLACK)  # Flush screen
             if (playanimation):  # If currently playing animation
@@ -201,14 +204,16 @@ class Frontend:
                 screen.blit(time_surface, time_rect)
                 screen.blit(self.date_surface, self.date_rect)
                 # Attach 1sd level buttons to screen
-                for my_text, text_pos in self.my_buttons.items():
-                    # default = 'choose a function'  # Set initial text
-                    # default_surface = self.my_font.render(default, True, self.WHITE)
-                    # default_rect = default_surface.get_rect(center=(160, 100))
-                    # screen.blit(default_surface, default_rect)
-                    text_surface = self.my_font.render(my_text, True, self.BLACK)
-                    rect = text_surface.get_rect(center=text_pos)
-                    screen.blit(text_surface, rect)
+                self.button1.draw()
+                self.button2.draw()
+                # for my_text, text_pos in self.my_buttons.items():
+                #     # default = 'choose a function'  # Set initial text
+                #     # default_surface = self.my_font.render(default, True, self.WHITE)
+                #     # default_rect = default_surface.get_rect(center=(160, 100))
+                #     # screen.blit(default_surface, default_rect)
+                #     text_surface = self.my_font.render(my_text, True, self.BLACK)
+                #     rect = text_surface.get_rect(center=text_pos)
+                #     screen.blit(text_surface, rect)
             pygame.display.flip()  # Display new frame
             # Set bail button
             currenttime = time.time()
