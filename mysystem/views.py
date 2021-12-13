@@ -123,8 +123,13 @@ def announce(request):
         c = json_result['content']
         t = json_result['title']
 
-        anouncement.objects.create(time=date.today, title=t, content=c)
+        anouncement.objects.create(title=t, content=c)
         return JsonResponse({'status': 'ok'})
+    result = {'content': '123', 'title': '456'}
+    c = result['content']
+    t = result['title']
+    anouncement.objects.create(title='t', content='c')
+
 
     return render(request, 'announce.html')
 
@@ -158,7 +163,7 @@ def survey(request):
         d = json_result['description']
         q = json_result['Q1']
 
-        Surveytable.objects.create(discription=d, question1=q)
+        Surveytable.objects.create(description=d, question1=q)
         Surveyresult.objects.create()
         return JsonResponse({'status': 'ok'})
 

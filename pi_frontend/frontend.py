@@ -46,7 +46,7 @@ class Frontend:
         self.my_buttons_lv2 = {'1.show courses': (100, 50), '2. view announcement': (100, 100), '3.vote for survey': (100, 150)}
         self.my_buttons_lv3 = {'Back': (290, 220)}
         self.my_buttons_lv4 = {'True': (90, 130), 'False': (230, 130)}
-        self.cord = 'welcome, Jinyang'  # Set initial text
+        self.cord = 'welcome, James'  # Set initial text
         self.date = str(date.today())
         self.time = time.strftime("%H:%M:%S")
         self.cord_surface = self.my_font1.render(self.cord, True, self.BLACK)
